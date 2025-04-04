@@ -1,0 +1,6 @@
+- name: Install Windows Updates
+  hosts: windows_servers
+  tasks:
+    - name: Apply updates
+      ansible.windows.win_updates:
+        reboot: no  # No immediate reboot
