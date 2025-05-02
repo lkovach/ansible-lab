@@ -1,0 +1,16 @@
+---
+- name: Check Windows updates against KB list
+  hosts: all
+  tasks:
+    - name: Copy the python script to the target host
+      win_copy:
+        src: check_updates.exe
+        dest: r"\\ansible.lab\SYSVOL\ansible.lab\scripts\check_updates.exe"
+
+    - name: Execute the script
+      win_shell: r"\\ansible.lab\SYSVOL\ansible.lab\scripts\check_updates.exe"
+      register: script_output
+
+    - name: Display the execution result
+      debug:
+        msg: "{{ script_output.stdout }}"
