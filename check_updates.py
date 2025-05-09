@@ -8,17 +8,18 @@ import logging
 # Configure logging
 logging.basicConfig(filename="update_checker.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-KB_LIST = ["KB5055661", "KB5055526", "KB5055519", "KB5055521"]  # Replace with actual KB numbers
-ANSIBLE_CONTROLLER_PATH = "/opt/ansible/updates"  # Adjust to the correct directory on the Ansible controller
+KB_LIST = ["KB123456", "KB654321"]  # Replace with actual KB numbers
+ANSIBLE_CONTROLLER_PATH = "/opt/ansible/updates"
 INDIVIDUAL_RESULTS_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.csv")
 AGGREGATED_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.csv")
 
 def get_installed_updates():
-    """Retrieve installed updates using WMIC."""
+    """Retrieve installed updates using PowerShell's Get-HotFix."""
     try:
-        result = subprocess.run(["wmic", "qfe", "get", "HotFixID"], capture_output=True, text=True, check=True)
-        updates = result.stdout.split("\n")[1:]  # Skip header
-        installed_updates = {line.strip() for line in updates if line.strip()}
+        result = subprocess.run(["powershell", "-Command", "Get-HotFix | Select-Object -ExpandProperty HotFixID"],
+                                capture_output=True, text=True, check=True)
+        updates = result.stdout.strip().split("\n")
+        installed_updates = {update.strip() for update in updates if update.strip()}
         logging.info(f"Retrieved installed updates: {installed_updates}")
         return installed_updates
     except subprocess.CalledProcessError as e:
@@ -29,7 +30,9 @@ def get_system_info():
     """Retrieve hostname, domain name, and IP address."""
     try:
         hostname = socket.gethostname()
-        domain = subprocess.run(["wmic", "computersystem", "get", "Domain"], capture_output=True, text=True, check=True).stdout.split("\n")[1].strip()
+        domain_result = subprocess.run(["powershell", "-Command", "(Get-WmiObject Win32_ComputerSystem).Domain"],
+                                       capture_output=True, text=True, check=True)
+        domain = domain_result.stdout.strip()
         ip_address = socket.gethostbyname(hostname)
         logging.info(f"System Info - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}")
         return hostname, domain, ip_address
