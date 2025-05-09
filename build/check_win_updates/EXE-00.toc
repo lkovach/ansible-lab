@@ -1,5 +1,5 @@
 ('C:\\Users\\louis\\OneDrive\\Dashboard '
- 'Project\\ansible-lab\\build\\check_updates\\check_updates.exe',
+ 'Project\\ansible-lab\\build\\check_win_updates\\check_win_updates.exe',
  True,
  False,
  True,
@@ -31,31 +31,31 @@
  None,
  None,
  'C:\\Users\\louis\\OneDrive\\Dashboard '
- 'Project\\ansible-lab\\build\\check_updates\\check_updates.pkg',
+ 'Project\\ansible-lab\\build\\check_win_updates\\check_win_updates.pkg',
  [('pyi-contents-directory _internal', '', 'OPTION'),
   ('PYZ-00.pyz',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\PYZ-00.pyz',
+   'Project\\ansible-lab\\build\\check_win_updates\\PYZ-00.pyz',
    'PYZ'),
   ('struct',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\localpycs\\struct.pyc',
+   'Project\\ansible-lab\\build\\check_win_updates\\localpycs\\struct.pyc',
    'PYMODULE'),
   ('pyimod01_archive',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\localpycs\\pyimod01_archive.pyc',
+   'Project\\ansible-lab\\build\\check_win_updates\\localpycs\\pyimod01_archive.pyc',
    'PYMODULE'),
   ('pyimod02_importers',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\localpycs\\pyimod02_importers.pyc',
+   'Project\\ansible-lab\\build\\check_win_updates\\localpycs\\pyimod02_importers.pyc',
    'PYMODULE'),
   ('pyimod03_ctypes',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\localpycs\\pyimod03_ctypes.pyc',
+   'Project\\ansible-lab\\build\\check_win_updates\\localpycs\\pyimod03_ctypes.pyc',
    'PYMODULE'),
   ('pyimod04_pywin32',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\localpycs\\pyimod04_pywin32.pyc',
+   'Project\\ansible-lab\\build\\check_win_updates\\localpycs\\pyimod04_pywin32.pyc',
    'PYMODULE'),
   ('pyiboot01_bootstrap',
    'C:\\Python313\\Lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
@@ -63,14 +63,14 @@
   ('pyi_rth_inspect',
    'C:\\Python313\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
    'PYSOURCE'),
-  ('check_updates',
+  ('check_win_updates',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\check_updates.py',
+   'Project\\ansible-lab\\check_win_updates.py',
    'PYSOURCE')],
  [],
  False,
  False,
- 1746807046,
+ 1746807193,
  [('run.exe',
    'C:\\Python313\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
    'EXECUTABLE')],

@@ -1,5 +1,5 @@
 (['C:\\Users\\louis\\OneDrive\\Dashboard '
-  'Project\\ansible-lab\\check_updates.py'],
+  'Project\\ansible-lab\\check_win_updates.py'],
  ['C:\\Users\\louis\\OneDrive\\Dashboard Project\\ansible-lab'],
  [],
  [('C:\\Python313\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks',
@@ -18,9 +18,9 @@
  [('pyi_rth_inspect',
    'C:\\Python313\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
    'PYSOURCE'),
-  ('check_updates',
+  ('check_win_updates',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\check_updates.py',
+   'Project\\ansible-lab\\check_win_updates.py',
    'PYSOURCE')],
  [('zipfile', 'C:\\Python313\\Lib\\zipfile\\__init__.py', 'PYMODULE'),
   ('zipfile._path',
@@ -172,13 +172,13 @@
   ('_opcode_metadata', 'C:\\Python313\\Lib\\_opcode_metadata.py', 'PYMODULE'),
   ('ast', 'C:\\Python313\\Lib\\ast.py', 'PYMODULE'),
   ('_colorize', 'C:\\Python313\\Lib\\_colorize.py', 'PYMODULE'),
-  ('_py_abc', 'C:\\Python313\\Lib\\_py_abc.py', 'PYMODULE'),
+  ('stringprep', 'C:\\Python313\\Lib\\stringprep.py', 'PYMODULE'),
   ('tracemalloc', 'C:\\Python313\\Lib\\tracemalloc.py', 'PYMODULE'),
   ('pickle', 'C:\\Python313\\Lib\\pickle.py', 'PYMODULE'),
   ('pprint', 'C:\\Python313\\Lib\\pprint.py', 'PYMODULE'),
   ('dataclasses', 'C:\\Python313\\Lib\\dataclasses.py', 'PYMODULE'),
   ('_compat_pickle', 'C:\\Python313\\Lib\\_compat_pickle.py', 'PYMODULE'),
-  ('stringprep', 'C:\\Python313\\Lib\\stringprep.py', 'PYMODULE'),
+  ('_py_abc', 'C:\\Python313\\Lib\\_py_abc.py', 'PYMODULE'),
   ('logging', 'C:\\Python313\\Lib\\logging\\__init__.py', 'PYMODULE'),
   ('socket', 'C:\\Python313\\Lib\\socket.py', 'PYMODULE'),
   ('selectors', 'C:\\Python313\\Lib\\selectors.py', 'PYMODULE'),
@@ -199,5 +199,5 @@
  [],
  [('base_library.zip',
    'C:\\Users\\louis\\OneDrive\\Dashboard '
-   'Project\\ansible-lab\\build\\check_updates\\base_library.zip',
+   'Project\\ansible-lab\\build\\check_win_updates\\base_library.zip',
    'DATA')])
