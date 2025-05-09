@@ -57,26 +57,9 @@ def check_updates(installed_updates):
     except Exception as e:
         logging.error(f"Error writing CSV file: {e}")
 
-def aggregate_csv_files():
-    """Aggregate all CSV files on the Ansible controller."""
-    try:
-        csv_files = [os.path.join(ANSIBLE_CONTROLLER_PATH, file) for file in os.listdir(ANSIBLE_CONTROLLER_PATH) if file.endswith(".csv")]
-        if not csv_files:
-            logging.warning("No CSV files found for aggregation.")
-            return
-        
-        df_list = [pd.read_csv(file) for file in csv_files]
-        aggregated_df = pd.concat(df_list, ignore_index=True)
-        aggregated_df.to_csv(AGGREGATED_FILE, index=False)
-
-        logging.info(f"Aggregated file saved as {AGGREGATED_FILE}")
-    except Exception as e:
-        logging.error(f"Error aggregating CSV files: {e}")
-
 if __name__ == "__main__":
     logging.info("Script started")
     installed_updates = get_installed_updates()
     check_updates(installed_updates)
-    aggregate_csv_files()
     logging.info("Script completed")
     print(f"Results saved to {INDIVIDUAL_RESULTS_FILE}, aggregated file saved as {AGGREGATED_FILE}")
