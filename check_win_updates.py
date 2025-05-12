@@ -4,6 +4,7 @@ import os
 import socket
 import pandas as pd
 import logging
+import platform
 
 # Configure logging
 logging.basicConfig(filename="update_checker.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -27,31 +28,32 @@ def get_installed_updates():
         return set()
 
 def get_system_info():
-    """Retrieve hostname, domain name, and IP address."""
+    """Retrieve hostname, domain name, IP address, and OS version."""
     try:
         hostname = socket.gethostname()
         domain_result = subprocess.run(["powershell", "-Command", "(Get-WmiObject Win32_ComputerSystem).Domain"],
                                        capture_output=True, text=True, check=True)
         domain = domain_result.stdout.strip()
         ip_address = socket.gethostbyname(hostname)
-        logging.info(f"System Info - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}")
-        return hostname, domain, ip_address
+        os_version = platform.system() + " " + platform.release()  # Get OS details
+        logging.info(f"System Info - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}, OS: {os_version}")
+        return hostname, domain, ip_address, os_version
     except Exception as e:
         logging.error(f"Error retrieving system info: {e}")
-        return "Unknown", "Unknown", "Unknown"
+        return "Unknown", "Unknown", "Unknown", "Unknown"
 
 def check_updates(installed_updates):
     """Compare installed updates against KB list and save to CSV on the Ansible controller."""
     try:
         os.makedirs(ANSIBLE_CONTROLLER_PATH, exist_ok=True)
-        hostname, domain, ip_address = get_system_info()
+        hostname, domain, ip_address, os_version = get_system_info()
 
         with open(INDIVIDUAL_RESULTS_FILE, mode="w", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow(["KB_Number", "Installed", "Hostname", "Domain", "IP_Address"])
+            writer.writerow(["KB_Number", "Installed", "Hostname", "Domain", "IP_Address", "Operating System"])
 
             for kb in KB_LIST:
-                writer.writerow([kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address])
+                writer.writerow([kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version])
         
         logging.info(f"Results saved to {INDIVIDUAL_RESULTS_FILE}")
     except Exception as e:
