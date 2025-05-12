@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 # Define the path to the CSV files
-ANSIBLE_CONTROLLER_PATH = "/opt/ansible/updates"
+ANSIBLE_CONTROLLER_PATH = "/opt/ansible/win_updates"
 AGGREGATED_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.csv")
 
 def aggregate_csv_files():
