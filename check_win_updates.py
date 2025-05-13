@@ -31,9 +31,9 @@ def get_system_info():
     """Retrieve hostname, domain name, IP address, and OS version."""
     try:
         hostname = socket.gethostname()
-        domain_result = subprocess.run(["powershell", "-Command", "(Get-WmiObject Win32_ComputerSystem).Domain"],
+        domain_result = subprocess.run(["powershell", "-Command", "$env:USERDNSDOMAIN"],
                                        capture_output=True, text=True, check=True)
-        domain = domain_result.stdout.strip()
+        domain = domain_result.stdout.strip() if domain_result.stdout.strip() else "Unknown"
         ip_address = socket.gethostbyname(hostname)
         os_version = platform.system() + " " + platform.release()  # Get OS details
         logging.info(f"System Info - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}, OS: {os_version}")
