@@ -36,7 +36,7 @@ def get_system_info():
         domain = domain_result.stdout.strip() if domain_result.stdout.strip() else "Unknown"
         ip_address = socket.gethostbyname(hostname)
         os_version = platform.system() + " " + platform.release()  # Get OS details
-        logging.info(f"System Info - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}, OS: {os_version}")
+        logging.info(f"DEBUG - Hostname: {hostname}, Domain: {domain}, IP Address: {ip_address}, OS: {os_version}")
         return hostname, domain, ip_address, os_version
     except Exception as e:
         logging.error(f"Error retrieving system info: {e}")
