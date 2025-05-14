@@ -31,7 +31,7 @@ def get_system_info():
     """Retrieve hostname, domain name, IP address, and OS version."""
     try:
         hostname = socket.gethostname()
-        domain_result = subprocess.run(["powershell", "-Command", "$env:USERDNSDOMAIN"],
+        domain_result = subprocess.run(["powershell", "-Command", "(Get-WmiObject Win32_ComputerSystem).Domain"],
                                        capture_output=True, text=True, check=True)
         domain = domain_result.stdout.strip() if domain_result.stdout.strip() else "Unknown"
         ip_address = socket.gethostbyname(hostname)
@@ -54,7 +54,7 @@ def check_updates(installed_updates):
 
             writer.writerow(["TEST", "Yes", hostname, domain, ip_address, os_version])  # Test row for debugging
             print(f"DEBUG - Writing test row: {hostname, domain, ip_address, os_version}")
-            
+
             for kb in KB_LIST:
                 print(f"DEBUG - Writing row: {kb, 'Yes' if kb in installed_updates else 'No'}, {hostname}, {domain}, {ip_address}, {os_version}")
                 writer.writerow([kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version])
