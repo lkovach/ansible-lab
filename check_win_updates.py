@@ -53,7 +53,8 @@ def check_updates(installed_updates):
             writer.writerow(["KB_Number", "Installed", "Hostname", "Domain", "IP_Address", "Operating System"])
 
             writer.writerow(["TEST", "Yes", hostname, domain, ip_address, os_version])  # Test row for debugging
-
+            print(f"DEBUG - Writing test row: {hostname, domain, ip_address, os_version}")
+            
             for kb in KB_LIST:
                 print(f"DEBUG - Writing row: {kb, 'Yes' if kb in installed_updates else 'No'}, {hostname}, {domain}, {ip_address}, {os_version}")
                 writer.writerow([kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version])
