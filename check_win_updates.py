@@ -9,7 +9,7 @@ import platform
 # Configure logging
 logging.basicConfig(filename="update_checker.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-KB_LIST = ["KB5055661", "KB5055526", "KB5055519", "KB5055521"]  # Replace with actual KB numbers
+KB_LIST = ["KB5058392", "KB5058385", "KB5058383", "KB5058392"]  # UPDATED 5-14-25 for May Patch Tuesday
 ANSIBLE_CONTROLLER_PATH = "/opt/ansible/win_updates"
 INDIVIDUAL_RESULTS_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.csv")
 AGGREGATED_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.csv")
