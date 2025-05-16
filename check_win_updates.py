@@ -56,8 +56,9 @@ def check_updates(installed_updates):
             print(f"DEBUG - Writing test row: {hostname, domain, ip_address, os_version}")
 
             for kb in KB_LIST:
+                row = [kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version]
                 print(f"DEBUG - Writing row: {kb, 'Yes' if kb in installed_updates else 'No'}, {hostname}, {domain}, {ip_address}, {os_version}")
-                writer.writerow([kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version])
+                writer.writerow(row)
         
         logging.info(f"Results saved to {INDIVIDUAL_RESULTS_FILE}")
     except Exception as e:
