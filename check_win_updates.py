@@ -63,21 +63,6 @@ def check_updates(installed_updates):
             logging.info(f"Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
             print(f"DEBUG - Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
 
-            """
-            # Test row
-            test_row = {
-                "KB_Number": "TEST",
-                "Installed": "Yes",
-                "Hostname": hostname,
-                "Domain": domain,
-                "IP_Address": ip_address,
-                "Operating System": os_version
-            }
-            logging.info(f"Writing test row: {test_row}")
-            print(f"DEBUG - Writing test row: {test_row}")
-            writer.writerow(test_row)
-            """
-
             for kb in KB_LIST:
                 row = {
                     "KB_Number": kb,
