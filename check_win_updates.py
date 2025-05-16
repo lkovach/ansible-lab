@@ -14,8 +14,6 @@ ANSIBLE_CONTROLLER_PATH = "/opt/ansible/win_updates"
 INDIVIDUAL_RESULTS_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.csv")
 AGGREGATED_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.csv")
 
-print(f"Writing to CSV file: {INDIVIDUAL_RESULTS_FILE}")
-
 def get_installed_updates():
     """Retrieve installed updates using PowerShell's Get-HotFix."""
     try:
@@ -65,6 +63,7 @@ def check_updates(installed_updates):
             logging.info(f"Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
             print(f"DEBUG - Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
 
+            """
             # Test row
             test_row = {
                 "KB_Number": "TEST",
@@ -77,6 +76,7 @@ def check_updates(installed_updates):
             logging.info(f"Writing test row: {test_row}")
             print(f"DEBUG - Writing test row: {test_row}")
             writer.writerow(test_row)
+            """
 
             for kb in KB_LIST:
                 row = {
