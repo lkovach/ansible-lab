@@ -6,8 +6,6 @@ import pandas as pd
 import logging
 import platform
 
-print(f"Writing to CSV file: {INDIVIDUAL_RESULTS_FILE}")
-
 # Configure logging
 logging.basicConfig(filename="update_checker.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -15,6 +13,8 @@ KB_LIST = ["KB5058524", "KB5058385", "KB5058383", "KB5058392"]  # UPDATED 5-14-2
 ANSIBLE_CONTROLLER_PATH = "/opt/ansible/win_updates"
 INDIVIDUAL_RESULTS_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.csv")
 AGGREGATED_FILE = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.csv")
+
+print(f"Writing to CSV file: {INDIVIDUAL_RESULTS_FILE}")
 
 def get_installed_updates():
     """Retrieve installed updates using PowerShell's Get-HotFix."""
