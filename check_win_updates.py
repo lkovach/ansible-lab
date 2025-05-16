@@ -77,6 +77,7 @@ def check_updates(installed_updates):
             writer.writerow(test_row)
 
             for kb in KB_LIST:
+<<<<<<< HEAD
                 row = {
                     "KB_Number": kb,
                     "Installed": "Yes" if kb in installed_updates else "No",
@@ -89,6 +90,15 @@ def check_updates(installed_updates):
                 print(f"DEBUG - Writing row: {row}")
                 writer.writerow(row)
 
+=======
+                row = [kb, "Yes" if kb in installed_updates else "No", hostname, domain, ip_address, os_version]
+                print(f"DEBUG - Writing row: {kb, 'Yes' if kb in installed_updates else 'No'}, {hostname}, {domain}, {ip_address}, {os_version}")
+                writer.writerow(row)
+        
+        if os.path.exists(INDIVIDUAL_RESULTS_FILE):
+            os.remove(INDIVIDUAL_RESULTS_FILE)
+        
+>>>>>>> 915a4d0b3895a2f625a83b1c23dd3d38c91b4c35
         logging.info(f"Results saved to {INDIVIDUAL_RESULTS_FILE}")
     except Exception as e:
         logging.error(f"Error writing CSV file: {e}")
