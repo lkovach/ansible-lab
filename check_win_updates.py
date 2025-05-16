@@ -60,6 +60,9 @@ def check_updates(installed_updates):
                 print(f"DEBUG - Writing row: {kb, 'Yes' if kb in installed_updates else 'No'}, {hostname}, {domain}, {ip_address}, {os_version}")
                 writer.writerow(row)
         
+        if os.path.exists(INDIVIDUAL_RESULTS_FILE):
+            os.remove(INDIVIDUAL_RESULTS_FILE)
+        
         logging.info(f"Results saved to {INDIVIDUAL_RESULTS_FILE}")
     except Exception as e:
         logging.error(f"Error writing CSV file: {e}")
