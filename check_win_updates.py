@@ -6,6 +6,8 @@ import pandas as pd
 import logging
 import platform
 
+print(f"Writing to CSV file: {INDIVIDUAL_RESULTS_FILE}")
+
 # Configure logging
 logging.basicConfig(filename="update_checker.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
