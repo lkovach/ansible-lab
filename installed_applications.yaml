@@ -1,0 +1,11 @@
+- name: Get installed applications and versions
+  hosts: windows
+  tasks:
+    - name: Get installed applications
+      ansible.windows.win_shell: |
+        Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion
+      register: installed_apps
+
+    - name: Show installed applications
+      ansible.builtin.debug:
+        var: installed_apps.stdout_lines

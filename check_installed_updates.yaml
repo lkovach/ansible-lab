@@ -1,16 +1,69 @@
 ---
 - name: Check Windows updates against KB list
-  hosts: all
+  hosts: windows
+  become: yes
+  become_method: runas
+  become_user: Administrator
   tasks:
+
+    - name: Create Updates folder
+      win_file:
+        path: C:\Updates
+        state: directory
+        force: yes
+
     - name: Copy the python script to the target host
       win_copy:
-        src: check_updates.exe
-        dest: r"\\ansible.lab\SYSVOL\ansible.lab\scripts\check_updates.exe"
-
+        src: check_win_updates.exe
+        dest: C:\Updates\check_win_updates.exe
+       
     - name: Execute the script
-      win_shell: r"\\ansible.lab\SYSVOL\ansible.lab\scripts\check_updates.exe"
+      win_shell: C:\Updates\check_win_updates.exe
       register: script_output
+
+    - name: Debug inventory
+      debug:
+        msg: "Executing on {{ ansible_hostname }}"
+     
+    - name: Delete script after execution
+      win_file:
+        path: C:\Updates\check_win_updates.exe
+        state: absent
+
+    - name: Retrieve CSV files
+      fetch:
+        src: C:\opt\ansible\win_updates\{{ ansible_hostname }}_updates.csv
+        dest: /opt/ansible/win_updates/{{ ansible_hostname }}_updates.csv
+        mode: '0755'
+        flat: yes
+      register: fetch_output
+     
+    - name: Delete CSV files from Windows
+      win_file:
+        path: C:\opt\ansible\win_updates\{{ ansible_hostname }}_updates.csv
+        state: absent
+
+- name: Aggregate CSV files on Controller
+  hosts: localhost
+  tasks:
+
+    - name: Aggregate CSV files
+      command: python3 /opt/ansible/win_updates/aggregate_csv_files.py
+      register: aggregate_output
+      delegate_to: localhost
+
+    - name: Clean duplicate entries
+      command: python3 /opt/ansible/win_updates/clean_duplicates.py
+      register: clean_output
+      delegate_to: localhost
 
     - name: Display the execution result
       debug:
-        msg: "{{ script_output.stdout }}"
+        msg: "{{ aggregate_output.stdout }}"
+
+    - name: Display cleanup result
+      debug:
+        msg: "{{ clean_output.stdout }}"
+
+    - name: Remove CSV files from Controller
+      shell: rm -f /opt/ansible/win_updates/*_updates.csv

@@ -1,6 +1,6 @@
-- name: Reboot Windows Servers
+- name: Reboot After Updates
   hosts: all
   tasks:
-    - name: Restart the server
+    - name: Restart After Updates
       ansible.windows.win_reboot:
-        reboot_timeout: 3600
+        reboot_timeout: 3600  #cancel the task if it runs longer than 1 hour
