@@ -4,6 +4,7 @@ import socket
 import pandas as pd
 import logging
 import platform
+import openpyxl
 
 # Configure logging
 logging.basicConfig(
