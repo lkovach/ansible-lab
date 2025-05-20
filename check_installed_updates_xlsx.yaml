@@ -14,21 +14,21 @@
 
     - name: Copy the python script to the target host
       win_copy:
-        src: check_win_updates_xlsx.exe
-        dest: C:\Updates\check_win_updates_xlsx.exe
+        src: check_installed_updates_xlsx.exe
+        dest: C:\Updates\check_installed_updates_xlsx.exe
        
     - name: Execute the script
-      win_shell: C:\Updates\check_win_updates_xlsx.exe
+      win_shell: C:\Updates\check_installed_updates_xlsx.exe
       register: script_output
 
     - name: Debug inventory
       debug:
         msg: "Executing on {{ ansible_hostname }}"
      
-    - name: Delete script after execution
-      win_file:
-        path: C:\Updates\check_win_updates_xlsx.exe
-        state: absent
+    #- name: Delete script after execution
+     # win_file:
+      #  path: C:\Updates\check_installed_updates_xlsx.exe
+       # state: absent
 
     - name: Retrieve XLSX files
       fetch:
