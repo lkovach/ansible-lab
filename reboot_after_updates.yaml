@@ -1,5 +1,5 @@
 - name: Reboot After Updates
-  hosts: all
+  hosts: windows
   tasks:
     - name: Restart After Updates
       ansible.windows.win_reboot:

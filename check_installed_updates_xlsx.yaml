@@ -25,10 +25,10 @@
       debug:
         msg: "Executing on {{ ansible_hostname }}"
      
-    #- name: Delete script after execution
-     # win_file:
-      #  path: C:\Updates\check_installed_updates_xlsx.exe
-       # state: absent
+          #  - name: Delete script after execution
+          #win_file:
+          #path: C:\Updates\check_installed_updates_xlsx.exe
+          #state: absent
 
     - name: Retrieve XLSX files
       fetch:

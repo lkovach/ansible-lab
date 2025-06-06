@@ -1,0 +1,33 @@
+---
+- name: Email Update CSV file
+  hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - secret.yaml
+
+  vars:
+    email_smtp_server: smtp.gmail.com
+    email_smtp_server_port: 587
+    email_from: "lkovach@ironmedicalsystems.com"
+    email_to: "techteam@ironmedicalsystems.com"
+    email_subject: "Windows Update Report"
+    email_body: "Please see the attached Windows Update Report"
+    attach_file: /opt/ansible/win_updates/converted_updates.xlsx
+
+  tasks:
+    - name: Send email with attachment
+      community.general.mail:
+        host: "{{ email_smtp_server }}"
+        port: "{{ email_smtp_server_port }}"
+        secure: try
+        username: "{{ email_smtp_username }}"
+        password: "{{ email_smtp_password }}"
+        from: "{{ email_from }}"
+        to: "{{ email_to }}"
+        cc: "lkovach@ironmedicalsystems.com"
+        subject: "{{ email_subject }}"
+        body: "{{ email_body }}"
+        attach:
+          - "{{ attach_file }}"
+      delegate_to: localhost

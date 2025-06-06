@@ -1,0 +1,26 @@
+- name: Email a file to Gmail
+  hosts: localhost
+  gather_facts: no
+  vars:
+    gmail_from: "louis@ironmed.com"
+    gmail_to: "techteam@gmail.com"
+    gmail_subject: "Windows Update Report"
+    gmail_body: "Attached is the latest Windows Update report"
+    gmail_username: "lkovach@ironmedicalsystems.com"
+    gmail_password: "zbnv lxfz nofy wlvu"
+    gmail_smtp_server: "smtp.gmail.com"
+    gmail_smtp_port: 587
+    attachment_path: /opt/ansible/win_updates/cleaned_updates_report.csv
+
+  tasks:
+    - name: Email the report
+      mail:
+        host: "{{ gmail_smtp_server }}"
+        port: "{{ gmail_smtp_port }}"
+        username: "{{ gmail_username }}"
+        password: "{{ gmail_password }}"
+        to: "{{ gmail_to }}"
+        subject: "{{ gmail_subject }}"
+        body: "{{ gmail_body }}"
+        attach: "{{ attachment_path }}"
+        secure: starttls
