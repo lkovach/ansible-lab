@@ -1,9 +1,12 @@
 {
     "cSpell.words": [
         "computersystem",
+        "endfor",
         "gethostname",
+        "HKLM",
         "levelname",
-        "selectattr"
+        "selectattr",
+        "splitlines"
     ],
     "ansible.python.interpreterPath": "c:\\Users\\louis\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe"
 }

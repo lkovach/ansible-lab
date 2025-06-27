@@ -1,0 +1,44 @@
+- name: Check and notify on new software installations
+  hosts: windows
+  gather_facts: true
+  vars_files:
+    - email.yaml
+  tasks:
+    - name: Run powershell script to check for new software
+      win_shell: |
+        powershell.exe -ExecutionPolicy Bypass -File "C:\scripts\check_new_software.ps1"
+
+    - name: Fetch new software list
+      win_slurp:
+        src: C:\Ansible\new_software.txt
+      register: new_software
+
+    - name: Decode software list
+      set_fact:
+        new_software_list: "{{ new_software['content'] | b64decode | splitlines() }}"
+
+    - name: Get host IP
+      win_command: ipconfig
+      register: ip_out
+
+    - name: Parse IP address
+      set_fact:
+        ip_address: >-
+          {{ ip_out.stdout_lines | select('search', 'IPv4') | map('regex_search', '[0-9]+(?:\.[0-9]+){3}') | list | first }}
+
+    - name: Send email if new software is installed
+      ansible.builtin.mail:
+        host: "{{ smtp_host }}"
+        port: 587
+        username: "{{ smtp_username }}"
+        password: "{{ smtp_password }}"
+        to: "{{ email_to }}"
+        subject: "New Software Installed on {{ inventory_hostname }}"
+        body: |
+          The following new software has been installed on {{ inventory_hostname }} (IP: {{ ip_address }}):
+          {% for software in new_software_list %}
+          - {{ item }}
+          {% endfor %}
+      when: new_software_list | length > 0
+      delegate_to: localhost
+      run_once: true
