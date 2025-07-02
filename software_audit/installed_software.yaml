@@ -4,9 +4,19 @@
   vars_files:
     - email.yaml
   tasks:
+    - name: Ensure the scripts directory exists
+      win_file:
+        path: C:\scripts
+        state: directory
+
+    - name: Copy PowerShell script to check for new software
+      win_copy:
+        src: scripts/compare_software.ps1
+        dest: C:\scripts\compare_software.ps1
+
     - name: Run powershell script to check for new software
       win_shell: |
-        powershell.exe -ExecutionPolicy Bypass -File "C:\scripts\check_new_software.ps1"
+        powershell.exe -ExecutionPolicy Bypass -File "C:\scripts\compare_software.ps1"
 
     - name: Fetch new software list
       win_slurp:
