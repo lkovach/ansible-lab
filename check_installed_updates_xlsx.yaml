@@ -7,28 +7,25 @@
   tasks:
 
     - name: Create Updates folder
-      win_file:
+      ansible.windows.win_file:
         path: C:\Updates
         state: directory
         force: yes
 
     - name: Copy the python script to the target host
-      win_copy:
-        src: check_installed_updates_xlsx.exe
+      ansible.windows.win_copy:
+        src: check_win_updates.exe
         dest: C:\Updates\check_installed_updates_xlsx.exe
        
     - name: Execute the script
-      win_shell: C:\Updates\check_installed_updates_xlsx.exe
+      ansible.windows.win_shell: |
+        cd C:\Updates
+        .\check_win_updates.exe /silent
       register: script_output
 
     - name: Debug inventory
       debug:
         msg: "Executing on {{ ansible_hostname }}"
-     
-          #  - name: Delete script after execution
-          #win_file:
-          #path: C:\Updates\check_installed_updates_xlsx.exe
-          #state: absent
 
     - name: Retrieve XLSX files
       fetch:
@@ -39,31 +36,6 @@
       register: fetch_output
      
     - name: Delete XLSX files from Windows
-      win_file:
+      ansible.windows.win_file:
         path: C:\opt\ansible\win_updates\{{ ansible_hostname }}_updates.xlsx
         state: absent
-
-#- name: Aggregate CSV files on Controller
- # hosts: localhost
-  #tasks:
-
-   # - name: Aggregate CSV files
-    #  command: python3 /opt/ansible/win_updates/aggregate_csv_files.py
-     # register: aggregate_output
-      #delegate_to: localhost
-
-    #- name: Clean duplicate entries
-     # command: python3 /opt/ansible/win_updates/clean_duplicates.py
-      #register: clean_output
-      #delegate_to: localhost
-
-    #- name: Display the execution result
-     # debug:
-      #  msg: "{{ aggregate_output.stdout }}"
-
-    - #name: Display cleanup result
-      #debug:
-        #msg: "{{ clean_output.stdout }}"
-
-    - #name: Remove CSV files from Controller
-      #shell: rm -f /opt/ansible/win_updates/*_updates.csv
