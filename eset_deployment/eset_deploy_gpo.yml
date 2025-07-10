@@ -1,0 +1,56 @@
+---
+- name: Deploy ESET via GPO
+  hosts: domain_controllers
+  gather_facts: no
+  
+  vars:
+    share_name: GPODeploy
+    share_path: C:\Install\GPODeploy
+    gpo_name: ESET Deployment
+    ou_dn: "OU=Computers,DC=ansible,DC=lab"
+  
+  tasks:
+    
+    - name: Ensure share directory exists
+      ansible.windows.win_file:
+      path: "{{ share_path }}"
+      state: directory
+
+    - name: Create a network share for installers
+      ansible.windows.win_share:
+        name: "{{ share_name }}"
+        path: "{{ share_path }}"
+        description: "Share for ESET GPO deployment"
+        state: present
+
+    - name: Copy ESET installer to share
+      ansible.windows.win_copy:
+        src: /etc/ansible/playbooks/eset_deployment/eset_installer/epi_win_live_installer.exe
+        dest: "{{ share_path }}/epi_win_live_installer.exe"
+
+    - name: Create or fetch GPO
+      ansible.windows.win_command: >
+        Import-Module GroupPolicy;
+        $gpo = Get-GPO -Name "{{ gpo_name }}" -ErrorAction SilentlyContinue;
+        if (-not $gpo) { New-GPO -Name "{{ gpo name }}" | Out-Null }
+      register: gpo_result
+      changed_when: "'New-GPO' in gpo.stdout"
+
+    - name: Extract GPO GUID
+      set_fact:
+        gpo_guid: "{{ gpo_result.stdout | regex_search('GPO ID: ([0-9a-fA-F-]+)', '\\1') }}"
+
+    - name: Copy startup script into GPO's sysvol
+      ansible.windows.win_copy:
+        src: "{{ share_path }}/ESET-Startup.ps1"
+        dest: '\\ansible-dc\sysvol\ansible.lab\scripts\ESET-Startup.ps1'
+
+    - name: Configure GPO to run startup script
+      ansible.windows.win_command: >
+        Import-Module GroupPolicy;
+        Set-GPStartupScript -Name "{{ gpo_name }}" -ScriptPath "\\ansible-dc\sysvol\ansible.lab\scripts\ESET-Startup.ps1" -GpoId "{{ gpo_guid }}"
+
+    - name: Link GPO to OU
+      ansible.windows.win_command: >
+        Import-Module GroupPolicy;
+        New-GPLink -Name "{{ gpo_name }}" -Target "{{ ou_dn }}" -LinkEnabled Yes
