@@ -13,8 +13,8 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-# List of KB articles (updated 6-11-25 for June Patch Tuesday)
-KB_LIST = ["KB5061010", "KB5060531", "KB5060954", "KB5060526"]
+# List of KB articles (updated 7-15-25 for July Patch Tuesday)
+KB_LIST = ["KB5062572", "KB5062557", "KB5062799", "KB5062560", "KB5062570"]
 
 ANSIBLE_CONTROLLER_PATH = "/opt/ansible/win_updates"
 # Use Excel files instead of CSV files
