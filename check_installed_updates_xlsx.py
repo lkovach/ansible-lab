@@ -72,6 +72,8 @@ def check_updates(installed_updates):
 
         df = pd.DataFrame(data)
         df.to_excel(xlsx_file, index=False, engine="xlsxwriter")
+        print("Attempting to write results to:", xlsx_file)
+        print("File exists after write:", os.path.exists(xlsx_file))
 
         logging.info(f"Results saved to {xlsx_file}")
         print(f"DEBUG - XLSX saved to: {xlsx_file}")
