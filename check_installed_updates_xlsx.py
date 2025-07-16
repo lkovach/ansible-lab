@@ -71,7 +71,10 @@ def check_updates(installed_updates):
             })
 
         output_path = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.xlsx")
-        write_colored_excel(data, output_path)
+        # Optionally, implement write_colored_excel if you want colored output.
+        # For now, just write the aggregated file as a regular Excel file.
+        df_agg = pd.DataFrame(data)
+        df_agg.to_excel(output_path, index=False, engine="xlsxwriter")
         
         df = pd.DataFrame(data)
         df.to_excel(xlsx_file, index=False, engine="xlsxwriter")
