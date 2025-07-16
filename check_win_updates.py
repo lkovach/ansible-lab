@@ -43,42 +43,31 @@ def get_system_info():
         return "Unknown", "Unknown", "Unknown", "Unknown"
 
 def check_updates(installed_updates):
-    """Compare installed updates against KB list and save to CSV on the Ansible controller."""
     try:
         os.makedirs(ANSIBLE_CONTROLLER_PATH, exist_ok=True)
-
-        # Remove previous file if it exists
-        if os.path.exists(INDIVIDUAL_RESULTS_FILE):
-            os.remove(INDIVIDUAL_RESULTS_FILE)
+        xlsx_file = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.xlsx")
 
         hostname, domain, ip_address, os_version = get_system_info()
 
-        fieldnames = ["KB_Number", "Installed", "Hostname", "Domain", "IP_Address", "Operating System"]
+        data = []
+        for kb in KB_LIST:
+            data.append({
+                "KB_Number": kb,
+                "Installed": "Yes" if kb in installed_updates else "No",
+                "Hostname": hostname,
+                "Domain": domain,
+                "IP_Address": ip_address,
+                "Operating System": os_version
+            })
 
-        with open(INDIVIDUAL_RESULTS_FILE, mode="w", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
+        df = pd.DataFrame(data)
+        df.to_excel(xlsx_file, index=False, engine="xlsxwriter")
 
-            # Debug: Log that the file was opened
-            logging.info(f"Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
-            print(f"DEBUG - Writing to CSV: {INDIVIDUAL_RESULTS_FILE}")
+        logging.info(f"Results saved to {xlsx_file}")
+        print(f"DEBUG - XLSX saved to: {xlsx_file}")
 
-            for kb in KB_LIST:
-                row = {
-                    "KB_Number": kb,
-                    "Installed": "Yes" if kb in installed_updates else "No",
-                    "Hostname": hostname,
-                    "Domain": domain,
-                    "IP_Address": ip_address,
-                    "Operating System": os_version
-                }
-                logging.info(f"Writing row: {row}")
-                print(f"DEBUG - Writing row: {row}")
-                writer.writerow(row)
-
-        logging.info(f"Results saved to {INDIVIDUAL_RESULTS_FILE}")
     except Exception as e:
-        logging.error(f"Error writing CSV file: {e}")
+        logging.error(f"Error writing XLSX file: {e}")
         print(f"ERROR: {e}")
 
 if __name__ == "__main__":

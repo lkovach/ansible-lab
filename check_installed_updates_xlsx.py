@@ -53,57 +53,31 @@ def get_system_info():
         return "Unknown", "Unknown", "Unknown", "Unknown"
 
 def check_updates(installed_updates):
-    """Compare installed updates against KB list and save data to Excel files on the Ansible controller."""
     try:
         os.makedirs(ANSIBLE_CONTROLLER_PATH, exist_ok=True)
-
-        # Remove previous individual file if it exists
-        if os.path.exists(INDIVIDUAL_RESULTS_FILE):
-            os.remove(INDIVIDUAL_RESULTS_FILE)
+        xlsx_file = os.path.join(ANSIBLE_CONTROLLER_PATH, f"{socket.gethostname()}_updates.xlsx")
 
         hostname, domain, ip_address, os_version = get_system_info()
 
-        rows = []
+        data = []
         for kb in KB_LIST:
-            row = {
+            data.append({
                 "KB_Number": kb,
                 "Installed": "Yes" if kb in installed_updates else "No",
                 "Hostname": hostname,
                 "Domain": domain,
                 "IP_Address": ip_address,
                 "Operating System": os_version
-            }
-            logging.info(f"Collecting row: {row}")
-            print(f"DEBUG - Collecting row: {row}")
-            rows.append(row)
+            })
 
-        # Write individual results to an Excel file (single sheet)
-        df_individual = pd.DataFrame(rows)
-        df_individual.to_excel(INDIVIDUAL_RESULTS_FILE, index=False)
-        logging.info(f"Individual results saved to {INDIVIDUAL_RESULTS_FILE}")
-        print(f"Individual results saved to {INDIVIDUAL_RESULTS_FILE}")
+        df = pd.DataFrame(data)
+        df.to_excel(xlsx_file, index=False, engine="xlsxwriter")
 
-        # Prepare the aggregated Excel file with separate sheets based on OS and Installed status
-        sheets_data = {}
-        for row in rows:
-            # Create a sheet name combining OS and Installed status
-            sheet_name = f"{row['Operating System']}_{row['Installed']}"
-            # Replace spaces with underscores and remove any characters that might not be allowed
-            sheet_name = sheet_name.replace(" ", "_")
-            if sheet_name not in sheets_data:
-                sheets_data[sheet_name] = []
-            sheets_data[sheet_name].append(row)
+        logging.info(f"Results saved to {xlsx_file}")
+        print(f"DEBUG - XLSX saved to: {xlsx_file}")
 
-        # Write the aggregated results to an Excel workbook with separate sheets
-        with pd.ExcelWriter(AGGREGATED_FILE, engine='xlsxwriter') as writer:
-            for sheet, data in sheets_data.items():
-                df_sheet = pd.DataFrame(data)
-                df_sheet.to_excel(writer, sheet_name=sheet, index=False)
-        logging.info(f"Aggregated results saved to {AGGREGATED_FILE}")
-        print(f"Aggregated results saved to {AGGREGATED_FILE}")
-        
     except Exception as e:
-        logging.error(f"Error writing Excel file: {e}")
+        logging.error(f"Error writing XLSX file: {e}")
         print(f"ERROR: {e}")
 
 if __name__ == "__main__":
