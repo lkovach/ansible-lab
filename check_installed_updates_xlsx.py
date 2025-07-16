@@ -70,6 +70,9 @@ def check_updates(installed_updates):
                 "Operating System": os_version
             })
 
+        output_path = os.path.join(ANSIBLE_CONTROLLER_PATH, "aggregated_updates.xlsx")
+        write_colored_excel(data, output_path)
+        
         df = pd.DataFrame(data)
         df.to_excel(xlsx_file, index=False, engine="xlsxwriter")
         print("Attempting to write results to:", xlsx_file)
