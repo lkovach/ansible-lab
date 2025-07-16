@@ -84,3 +84,4 @@ if __name__ == "__main__":
     installed_updates = get_installed_updates()
     df = build_kb_dataframe(installed_updates)
     write_xlsx_report(df, OUTPUT_PATH)
+    print("Scripted completed successfully.", flush=True)
