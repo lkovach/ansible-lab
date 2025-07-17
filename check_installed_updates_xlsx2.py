@@ -83,6 +83,6 @@ def write_colored_excel(df, output_path):
 if __name__ == "__main__":
     installed_updates = get_installed_updates()
     df = build_kb_dataframe(installed_updates)
-    write_xlsx_report(df, OUTPUT_PATH)
+    write_colored_excel(df, OUTPUT_PATH)
     import sys
     sys.exit(0)  # Exit with success code
