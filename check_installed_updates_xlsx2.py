@@ -83,6 +83,8 @@ def write_colored_excel(df, output_path):
 if __name__ == "__main__":
     installed_updates = get_installed_updates()
     df = build_kb_dataframe(installed_updates)
-    write_colored_excel(df, OUTPUT_PATH)
+    hostname, _, _, _ = get_system_info()
+    output_path = f"C:\\Updates\\patch_report_{hostname}.xlsx"
+    write_colored_excel(df, output_path)
     import sys
     sys.exit(0)  # Exit with success code
