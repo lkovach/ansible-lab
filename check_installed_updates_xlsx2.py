@@ -52,7 +52,7 @@ def build_kb_dataframe(installed_updates):
     return pd.DataFrame(records)
 
 # 🧠 Function: Write color-coded Excel report
-def write_xlsx_report(df, output_path):
+def write_colored_excel(df, output_path):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
         df.to_excel(writer, index=False, sheet_name="Update Status")
