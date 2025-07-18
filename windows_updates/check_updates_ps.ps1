@@ -13,7 +13,7 @@ $report = foreach ($kb in $KBsToCheck) {
         Hostname = $hostname
         Domain = $domain
         IP_Address = $ip
-        OS_Verison = $os
+        OS_Version = $os
         Timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
     }
 }
