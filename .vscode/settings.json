@@ -10,7 +10,8 @@
         "runas",
         "selectattr",
         "splitlines",
-        "sysvol"
+        "sysvol",
+        "todict"
     ],
     "ansible.python.interpreterPath": "c:\\Users\\louis\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe"
 }

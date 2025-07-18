@@ -87,6 +87,6 @@ if __name__ == "__main__":
     # data = build_data(hostname, domain, ip, os_ver)  # Removed undefined function call
     safe_host = "".join(c for c in hostname if c.isalnum() or c in ("-", "_"))
     output_path = f"C:\\Updates\\patch_report_{safe_host}.xlsx"
-    write_colored_excel(df, output_path)
+    write_colored_excel(df.todict(orient="records"), output_path)
     import sys
     sys.exit(0)  # Exit with success code
