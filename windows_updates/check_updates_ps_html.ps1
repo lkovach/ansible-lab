@@ -7,7 +7,12 @@ $htmlHead = @"
 "@
 
 $htmlRows = $report | ForEach-Object {
-    $bg = $_.Installed -eq "Yes" ? '#90EE90' : '#FA8072'
+    if ($_.Installed -eq 'Yes') {
+        $bg = '#90EE90'
+    } else {
+        $bg = '#FA8072'
+    }
+    
     "<tr>" +
       "<td>$($_.KB_Article)</td>" +
       "<td style='background-color:$bg'>$($_.Installed)</td>" +
