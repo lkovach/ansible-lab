@@ -15,7 +15,7 @@ foreach ($keyRoot in $keys) {
         $props = Get-ItemProperty $keyPath -ErrorAction SilentlyContinue
         $acl = Get-Acl $keyPath -ErrorAction SilentlyContinue
 
-        if ($props.DisplayName or $props.QuietInstallString) {
+        if ($props.DisplayName -or $props.QuietInstallString) {
             $report += [PSCustomObject]@{
                 DisplayName = $props.DisplayName
                 DisplayVersion = $props
